@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-// import SearchIcon from "../assets/icons/SearchIcon";
+import SearchIcon from "../assets/icons/SearchIcon";
 
 const StyledSearchButton = styled.button`
   border: none;
@@ -27,5 +27,9 @@ const StyledSearchButton = styled.button`
 `;
 
 export default function SearchButton() {
-  return <StyledSearchButton>{/* <SearchIcon /> */}</StyledSearchButton>;
+  return (
+    <StyledSearchButton>
+      <SearchIcon />
+    </StyledSearchButton>
+  );
 }
