@@ -18,10 +18,6 @@ const StyledSearchSuggestionListItem = styled.li`
   span {
     margin-left: 9px;
   }
-
-  span:nth-child(1) {
-    font-weight: bold;
-  }
 `;
 
 SearchSuggestionListItem.propTypes = {
@@ -55,7 +51,6 @@ export default function SearchSuggestionListItem({
     >
       <SearchIcon />
       <span>{name}</span>
-      <span>{name.replace(name, "")}</span>
     </StyledSearchSuggestionListItem>
   );
 }
