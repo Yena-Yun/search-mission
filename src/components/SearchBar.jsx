@@ -72,7 +72,7 @@ export default function SearchBar({ openModal, setOpenModal }) {
   };
 
   useEffect(() => {
-    const debounceFetch = async () => {
+    const getCachedDataOrFetch = async () => {
       if (!searchName) return setSuggestions([]);
 
       checkExpiredCache();
@@ -84,12 +84,12 @@ export default function SearchBar({ openModal, setOpenModal }) {
       setSuggestions(searchResult);
     };
 
-    const debounce = setTimeout(() => {
-      debounceFetch();
+    const debounceFetch = setTimeout(() => {
+      getCachedDataOrFetch();
     }, 500);
 
     return () => {
-      clearTimeout(debounce);
+      clearTimeout(debounceFetch);
     };
   }, [searchName, caches]);
 
