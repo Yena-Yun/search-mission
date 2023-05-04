@@ -19,7 +19,7 @@ export const instance = axios.create({
 });
 
 instance.interceptors.request.use(() => {
-  console.log("calling api");
+  console.info("calling api");
 });
 
 instance.interceptors.response.use((response) => {
