@@ -5,9 +5,10 @@ import useSuggestionFocus from "../hooks/useSuggestionFocus";
 import SearchIcon from "../assets/icons/SearchIcon";
 import SearchButton from "./SearchButton";
 import SearchSuggestionModal from "./SearchSuggestionModal";
-import { fetchResults } from "../api/fetchResults";
-import { setItemWithExpireTime } from "../utils/setItemWithExpireTime";
+import SearchSuggestionListItem from "./SearchSuggestionListItem";
+import fetchResults from "../api/fetchResults";
 import checkExpiredCache from "../utils/checkExpiredCache";
+import { RegExp } from "../utils/RegExp";
 
 const StyledSearchBar = styled.div`
   margin-top: 10px;
@@ -23,10 +24,6 @@ const StyledSearchBar = styled.div`
     left: 18px;
     top: 44px;
   }
-
-  input:focus + div:nth-child(2) {
-    display: none;
-  }
 `;
 
 const SearchInput = styled.input`
@@ -35,7 +32,7 @@ const SearchInput = styled.input`
   width: 430px;
   border-radius: 40px;
   border: none;
-  padding-left: 20px;
+  padding-left: 45px;
   padding-right: 90px;
   padding-top: 5px;
   font-size: 17px;
@@ -44,11 +41,19 @@ const SearchInput = styled.input`
   ::placeholder {
     font-size: 17px;
     color: #a6afb7;
-    padding-left: 25px;
   }
 
   :focus::placeholder {
     color: transparent;
+  }
+`;
+
+const StyledSearchSuggestionList = styled.ul`
+  margin-top: -10px;
+  margin-left: -19px;
+
+  & > span {
+    margin-left: 19px;
   }
 `;
 
@@ -77,14 +82,14 @@ export default function SearchBar({ openModal, setOpenModal }) {
 
   useEffect(() => {
     const getCachedDataOrFetch = async () => {
-      if (!searchName) return setSuggestions([]);
+      if (!searchName || RegExp(searchName)) return setSuggestions([]);
 
       checkExpiredCache();
       const caches = JSON.parse(localStorage.getItem(searchName));
-      if (caches) return setSuggestions(caches.searchValue);
+      if (caches) return setSuggestions(caches.value);
 
+      console.log("searchName: ", searchName);
       const searchResult = await fetchResults(searchName);
-      setItemWithExpireTime(searchName, searchResult);
       setSuggestions(searchResult);
     };
 
@@ -107,17 +112,28 @@ export default function SearchBar({ openModal, setOpenModal }) {
         value={searchName}
         onClick={() => setOpenModal(true)}
       />
-      {openModal && <SearchIcon />}
+      <SearchIcon />
       <SearchButton />
-      <SearchSuggestionModal
-        searchName={searchName}
-        openModal={openModal}
-        focusIdx={focusIdx}
-        setFocusIdx={setFocusIdx}
-        suggestions={suggestions}
-        setSearchName={setSearchName}
-        searchRef={searchRef}
-      />
+
+      <SearchSuggestionModal openModal={openModal}>
+        <StyledSearchSuggestionList>
+          {suggestions?.length > 0 && searchName ? (
+            suggestions?.map((suggestion, idx) => (
+              <SearchSuggestionListItem
+                key={suggestion.id}
+                name={suggestion.name}
+                focus={focusIdx === idx}
+                handleMouseOver={() => setFocusIdx(idx)}
+                handleMouseOut={() => setFocusIdx(-2)}
+                setSearchName={setSearchName}
+                searchRef={searchRef}
+              />
+            ))
+          ) : (
+            <span>검색어 없음</span>
+          )}
+        </StyledSearchSuggestionList>
+      </SearchSuggestionModal>
     </StyledSearchBar>
   );
 }

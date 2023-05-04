@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import SearchSuggestionListItem from "./SearchSuggestionListItem";
 
 const StyledSearchSuggestionModal = styled.div`
   background-color: white;
@@ -27,56 +26,18 @@ const StyledSearchSuggestionModal = styled.div`
   }
 `;
 
-const StyledSearchSuggestionList = styled.ul`
-  margin-top: -10px;
-  margin-left: -19px;
-
-  & > span {
-    margin-left: 19px;
-  }
-`;
-
 SearchSuggestionModal.propTypes = {
-  focusIdx: PropTypes.number.isRequired,
-  suggestions: PropTypes.array.isRequired,
-  setSearchName: PropTypes.func.isRequired,
   openModal: PropTypes.bool.isRequired,
-  searchName: PropTypes.string.isRequired,
-  setFocusIdx: PropTypes.func.isRequired,
-  searchRef: PropTypes.object,
+  children: PropTypes.node,
 };
 
-export default function SearchSuggestionModal({
-  focusIdx,
-  suggestions,
-  setSearchName,
-  openModal,
-  searchName,
-  setFocusIdx,
-  searchRef,
-}) {
+export default function SearchSuggestionModal({ openModal, children }) {
   if (!openModal) return null;
 
   return (
     <StyledSearchSuggestionModal>
       <span className="modalText">추천 검색어</span>
-      <StyledSearchSuggestionList>
-        {suggestions?.length > 0 && searchName ? (
-          suggestions?.map((suggestion, idx) => (
-            <SearchSuggestionListItem
-              key={suggestion.id}
-              name={suggestion.name}
-              focus={focusIdx === idx}
-              handleMouseOver={() => setFocusIdx(idx)}
-              handleMouseOut={() => setFocusIdx(-2)}
-              setSearchName={setSearchName}
-              searchRef={searchRef}
-            />
-          ))
-        ) : (
-          <span>검색어 없음</span>
-        )}
-      </StyledSearchSuggestionList>
+      {children}
     </StyledSearchSuggestionModal>
   );
 }
