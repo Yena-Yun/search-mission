@@ -24,8 +24,11 @@ npm start
   - [🛠️ 기술 스택](#️-기술-스택)
   - [📖 기능 구현](#-기능-구현)
     - [1️⃣ API 호출별로 로컬 캐싱 구현](#1️⃣-api-호출별로-로컬-캐싱-구현)
-    - [2️⃣입력마다 API 호출하지 않도록 API 호출 횟수를 줄이는 전략 수립 및 실행](#2️⃣입력마다-api-호출하지-않도록-api-호출-횟수를-줄이는-전략-수립-및-실행)
+      - [🆚 localStorage vs sessionStorage](#-localstorage-vs-sessionstorage)
+      - [로컬 캐싱 구현](#로컬-캐싱-구현)
+    - [2️⃣ 입력마다 API 호출하지 않도록 API 호출 횟수를 줄이는 전략 수립 및 실행](#2️⃣-입력마다-api-호출하지-않도록-api-호출-횟수를-줄이는-전략-수립-및-실행)
       - [🆚 Debounce vs Throttle](#-debounce-vs-throttle)
+      - [띄어쓰기만 있는 검색어 || 초성만 포함된 문자 검색어(e.g. 갑ㅅ)의 경우 API 호출을 하지 않는다.](#띄어쓰기만-있는-검색어--초성만-포함된-문자-검색어eg-갑ㅅ의-경우-api-호출을-하지-않는다)
     - [3️⃣ 키보드만으로 추천 검색어들로 이동 가능하도록 구현](#3️⃣-키보드만으로-추천-검색어들로-이동-가능하도록-구현)
   - [✏️ 팀 규칙](#️-팀-규칙)
     - [1️⃣ 커밋 컨벤션](#1️⃣-커밋-컨벤션)
@@ -64,18 +67,73 @@ npm start
 
 ### 1️⃣ API 호출별로 로컬 캐싱 구현
 
-- localStorage vs sessionStorage
-- setInterval
+#### 🆚 localStorage vs sessionStorage
 
-### 2️⃣입력마다 API 호출하지 않도록 API 호출 횟수를 줄이는 전략 수립 및 실행
+- `sessionStorage`는 세션이 종료되면 (e.g. 브라우저 닫기) 저장한 데이터가 지워지므로 임시적으로 사용하는 데이터를 저장하기 적합합니다.
+- `localStorage`는 사용자가 저장된 데이터를 직접 삭제하지 않는 한 영구적으로 보존되기 때문에 사이트를 재방문할 때 사용할 수 있는 데이터를 활용하기 적합합니다.
+- 이번 과제를 구현하며 브라우저를 닫았다 다시 방문해도 이전 검색어가 남아있는 것이 낫다는 의견으로 모아져 `localStorage`를 사용하기로 결정했습니다.
+
+#### 로컬 캐싱 구현
+
+```js
+const SearchApi = axios.create({
+  method: "GET",
+  baseURL: "/api/v1/search-conditions",
+});
+
+SearchApi.interceptors.request.use((config) => {
+  console.info("calling api");
+  return config;
+});
+
+SearchApi.interceptors.response.use((response) => {
+  if (response.status !== 200) {
+    throw new Error("api 호출이 실패하였습니다.");
+  }
+  if (response.data.length === 0) {
+    console.info("api 호출이 실패하였습니다.");
+  }
+
+  const url = new URLSearchParams(`${response.config.url}`);
+  const key = url.get("name");
+
+  localStorage.setItem(
+    key,
+    JSON.stringify({
+      value: response.data,
+      expiresAt: Date.now() + 1000 * 60 * 5, // 5분
+    })
+  );
+
+  return response.data;
+});
+```
+
+- Axios Instance를 생성하고 `Interceptors`를 사용해서 API 호출 후 성공적으로 받은 응답 데이터를 `localStorage`에 저장하며 캐싱 과정을 간소화했습니다.
+
+```js
+const checkExpiredCache = () => {
+  Object.keys(localStorage).forEach((key) => {
+    const obj = localStorage.getItem(key);
+
+    const searchValueObj = JSON.parse(obj);
+    if (Date.now() > searchValueObj.expiresAt) {
+      localStorage.removeItem(key);
+    }
+  });
+};
+```
+
+- `checkExpiredCache` 함수를 사용해 expire time을 체크하고 로컬스토리지에서 제거했습니다.
+
+### 2️⃣ 입력마다 API 호출하지 않도록 API 호출 횟수를 줄이는 전략 수립 및 실행
 
 #### 🆚 Debounce vs Throttle
 
-- `Debounce`는 연속되는 이벤트가 끝날때까지 정해진 시간만큼 기다린 후에 실행되고, `Throttle`은 이벤트가 시작되면 일정 주기로 계속 실행합니다.
 - 검색창에서 추천 검색어 API를 구현하는 경우:
   - `Debounce`는 입력이 멈추고 정해진 시간 후에 API를 호출하게 됩니다.
   - `Throttle`은 입력이 진행되는 동안 일정한 주기로 API를 호출하게 됩니다.
-- `Throttle`을 사용하면 검새어 입력동안 주기적으로 업데이트되는 추천 검색어로 인해 사용자의 측면을 더 고려하며,`Debounce`를 사용하면 입력이 끝나고 일정 시간 후 업데이트되기 때문에 성능적인 측면을 더 고려하게 됩니다.
+- `Throttle`을 사용하면 검색어 입력동안 주기적으로 업데이트되는 추천 검색어로 인해 사용자의 측면을 더 고려하며,`Debounce`를 사용하면 입력이 끝나고 일정 시간 후 업데이트되기 때문에 성능적인 측면을 더 고려하게 됩니다.
 - 이번 과제에서는 요구 사항에 맞춰 호출 횟수를 줄이는 전략을 수립하기 위해 `Debounce` 사용했습니다.
 
 ```js
@@ -90,7 +148,6 @@ useEffect(() => {
     if (caches) return setSuggestions(caches.searchValue);
 
     const searchResult = await fetchResults(searchName);
-    setItemWithExpireTime(searchName, searchResult);
     setSuggestions(searchResult);
   };
 
@@ -107,6 +164,14 @@ useEffect(() => {
 - `Debounce`를 사용한 검색 최적화
   - 500ms의 지연 시간을 설정하여, 사용자가 입력을 완료할 때까지 요청을 지연시켰습니다.
   - 이를 통해 불필요한 검색 요청을 줄이고 성능을 최적화할 수 있었습니다.
+
+#### 띄어쓰기만 있는 검색어 || 초성만 포함된 문자 검색어(e.g. 갑ㅅ)의 경우 API 호출을 하지 않는다.
+
+```js
+// src/components/SearchBar.jsx
+
+if (!searchName || RegExp(searchName)) return setSuggestions([]);
+```
 
 ### 3️⃣ 키보드만으로 추천 검색어들로 이동 가능하도록 구현
 
@@ -208,9 +273,33 @@ export default function useSuggestionFocus(
 ```
 
 - 마우스 호버와 키보드 포커스 연동 기능
+
   - 마우스로 항목에 호버할 경우, 해당 항목에 포커스가 됩니다.
   - 마우스가 항목에서 벗어날 경우, 포커스가 초기화됩니다.
   - 이를 통해 사용자가 마우스와 키보드를 동시에 사용하여 추천 검색어 목록에서 원하는 항목을 선택합니다.
+
+```js
+// src/hooks/useSuggestionFocus.jsx
+
+searchRef.current?.scrollIntoView({
+  behavior: "smooth",
+  block: "center",
+});
+
+// src/components/SearchSuggestionListItem.jsx
+
+<StyledSearchSuggestionListItem
+  focus={focus}
+  onClick={modalOutSideClick}
+  onMouseOver={handleMouseOver}
+  onMouseOut={handleMouseOut}
+  ref={focus ? searchRef : null}
+></StyledSearchSuggestionListItem>;
+```
+
+- 키보드로 추천 검색어 스크롤 시 뷰포인트 이동
+  - scrollIntoView 활용하여 키보드로 추천 검색어 이동 시 포커스가 마지막에 가기 전에 다음 목록을 보여줍니다.
+  - focus된 StyledSearchSuggestionListItem에 ref를 지정하여 foucs된 검색어를 지정하도록 했습니다.
 
 ## ✏️ 팀 규칙
 
