@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import useSuggestionFocus from "../hooks/useSuggestionFocus";
@@ -58,17 +58,21 @@ SearchBar.propTypes = {
 };
 
 export default function SearchBar({ openModal, setOpenModal }) {
+  const searchRef = useRef(null);
   const [searchName, setSearchName] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const { changeIdxNum, focusIdx, setFocusIdx } = useSuggestionFocus(
     suggestions,
-    setSearchName
+    setSearchName,
+    setOpenModal,
+    searchRef
   );
 
   const handleChange = async (e) => {
     const name = e.target.value;
     setSearchName(name);
     setFocusIdx(-2);
+    setOpenModal(true);
   };
 
   useEffect(() => {
@@ -109,8 +113,10 @@ export default function SearchBar({ openModal, setOpenModal }) {
         searchName={searchName}
         openModal={openModal}
         focusIdx={focusIdx}
+        setFocusIdx={setFocusIdx}
         suggestions={suggestions}
         setSearchName={setSearchName}
+        searchRef={searchRef}
       />
     </StyledSearchBar>
   );

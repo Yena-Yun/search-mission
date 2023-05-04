@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-// import SearchIcon from "../assets/icons/SearchIcon";
+import SearchIcon from "../assets/icons/SearchIcon";
 import PropTypes from "prop-types";
 
 const StyledSearchSuggestionListItem = styled.li`
@@ -28,20 +28,32 @@ SearchSuggestionListItem.propTypes = {
   name: PropTypes.string.isRequired,
   focus: PropTypes.bool.isRequired,
   setSearchName: PropTypes.func.isRequired,
+  handleMouseOver: PropTypes.func.isRequired,
+  handleMouseOut: PropTypes.func.isRequired,
+  searchRef: PropTypes.object,
 };
 
 export default function SearchSuggestionListItem({
   name,
   focus,
   setSearchName,
+  handleMouseOver,
+  handleMouseOut,
+  searchRef,
 }) {
   const modalOutSideClick = (e) => {
     if (e.target) setSearchName(name);
   };
 
   return (
-    <StyledSearchSuggestionListItem focus={focus} onClick={modalOutSideClick}>
-      {/* <SearchIcon /> */}
+    <StyledSearchSuggestionListItem
+      focus={focus}
+      onClick={modalOutSideClick}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
+      ref={focus ? searchRef : null}
+    >
+      <SearchIcon />
       <span>{name}</span>
       <span>{name.replace(name, "")}</span>
     </StyledSearchSuggestionListItem>
