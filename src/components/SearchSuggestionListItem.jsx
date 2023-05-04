@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import SearchIcon from "../assets/icons/SearchIcon";
+// import SearchIcon from "../assets/icons/SearchIcon";
 import PropTypes from "prop-types";
 
 const StyledSearchSuggestionListItem = styled.li`
@@ -18,6 +18,10 @@ const StyledSearchSuggestionListItem = styled.li`
   span {
     margin-left: 9px;
   }
+
+  span:nth-child(1) {
+    font-weight: bold;
+  }
 `;
 
 SearchSuggestionListItem.propTypes = {
@@ -32,15 +36,14 @@ export default function SearchSuggestionListItem({
   setSearchName,
 }) {
   const modalOutSideClick = (e) => {
-    if (e.target) {
-      setSearchName(name);
-    }
+    if (e.target) setSearchName(name);
   };
 
   return (
     <StyledSearchSuggestionListItem focus={focus} onClick={modalOutSideClick}>
-      <SearchIcon />
+      {/* <SearchIcon /> */}
       <span>{name}</span>
+      <span>{name.replace(name, "")}</span>
     </StyledSearchSuggestionListItem>
   );
 }

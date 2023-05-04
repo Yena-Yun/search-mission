@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import SearchSuggestionList from "./SearchSuggestionList";
+import SearchSuggestionListItem from "./SearchSuggestionListItem";
 
 const StyledSearchSuggestionModal = styled.div`
   background-color: white;
@@ -20,25 +20,51 @@ const StyledSearchSuggestionModal = styled.div`
   }
 `;
 
+const StyledSearchSuggestionList = styled.ul`
+  margin-top: -10px;
+  margin-left: -19px;
+
+  & > span {
+    margin-left: 19px;
+  }
+`;
+
 SearchSuggestionModal.propTypes = {
   focusIdx: PropTypes.number.isRequired,
   suggestions: PropTypes.array.isRequired,
   setSearchName: PropTypes.func.isRequired,
+  openModal: PropTypes.bool.isRequired,
+  searchName: PropTypes.string.isRequired,
 };
 
 export default function SearchSuggestionModal({
   focusIdx,
   suggestions,
   setSearchName,
+  openModal,
+  searchName,
 }) {
+  if (!openModal) return null;
+
+  console.log("suggestions in SearchSuggestionModal:", suggestions);
+
   return (
     <StyledSearchSuggestionModal>
       <span className="modalText">추천 검색어</span>
-      <SearchSuggestionList
-        focusIdx={focusIdx}
-        suggestions={suggestions}
-        setSearchName={setSearchName}
-      />
+      <StyledSearchSuggestionList>
+        {suggestions?.length > 0 && searchName ? (
+          suggestions?.map((suggestion, idx) => (
+            <SearchSuggestionListItem
+              key={suggestion.id}
+              name={suggestion.name}
+              focus={focusIdx === idx}
+              setSearchName={setSearchName}
+            />
+          ))
+        ) : (
+          <span>검색어 없음</span>
+        )}
+      </StyledSearchSuggestionList>
     </StyledSearchSuggestionModal>
   );
 }
