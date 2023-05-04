@@ -31,6 +31,7 @@ SearchInput.propTypes = {
   changeIdxNum: PropTypes.func.isRequired,
   focusResult: PropTypes.string.isRequired,
   setSearchName: PropTypes.func.isRequired,
+  setOpenModal: PropTypes.func.isRequired,
 };
 
 export default function SearchInput({
@@ -39,6 +40,7 @@ export default function SearchInput({
   changeIdxNum,
   focusResult,
   setSearchName,
+  setOpenModal,
 }) {
   useEffect(() => {
     setSearchName(focusResult);
@@ -51,6 +53,7 @@ export default function SearchInput({
       onChange={handleChange}
       onKeyDown={changeIdxNum}
       value={searchName}
+      onClick={() => setOpenModal(true)}
     />
   );
 }

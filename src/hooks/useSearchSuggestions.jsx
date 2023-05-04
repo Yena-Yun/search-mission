@@ -37,7 +37,7 @@ export default function useSearchSuggestions() {
 
     const debounce = setTimeout(() => {
       fetchResults();
-    }, 300);
+    }, 500);
 
     return () => {
       clearTimeout(debounce);

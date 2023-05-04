@@ -8,6 +8,7 @@ const StyledSearchSuggestionListItem = styled.li`
   line-height: 40px;
   display: flex;
   padding-left: 20px;
+  cursor: pointer;
 
   div:first-child {
     margin-top: 1px;
@@ -22,11 +23,22 @@ const StyledSearchSuggestionListItem = styled.li`
 SearchSuggestionListItem.propTypes = {
   name: PropTypes.string.isRequired,
   focus: PropTypes.bool.isRequired,
+  setSearchName: PropTypes.func.isRequired,
 };
 
-export default function SearchSuggestionListItem({ name, focus }) {
+export default function SearchSuggestionListItem({
+  name,
+  focus,
+  setSearchName,
+}) {
+  const modalOutSideClick = (e) => {
+    if (e.target) {
+      setSearchName(name);
+    }
+  };
+
   return (
-    <StyledSearchSuggestionListItem focus={focus}>
+    <StyledSearchSuggestionListItem focus={focus} onClick={modalOutSideClick}>
       <SearchIcon />
       <span>{name}</span>
     </StyledSearchSuggestionListItem>

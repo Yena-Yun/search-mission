@@ -15,9 +15,14 @@ const StyledSearchSuggestionList = styled.ul`
 SearchSuggestionList.propTypes = {
   focusIdx: PropTypes.number.isRequired,
   suggestions: PropTypes.array.isRequired,
+  setSearchName: PropTypes.func.isRequired,
 };
 
-export default function SearchSuggestionList({ focusIdx, suggestions }) {
+export default function SearchSuggestionList({
+  focusIdx,
+  suggestions,
+  setSearchName,
+}) {
   return (
     <StyledSearchSuggestionList>
       {suggestions.length === 0 ? (
@@ -28,6 +33,7 @@ export default function SearchSuggestionList({ focusIdx, suggestions }) {
             key={suggestion.id}
             name={suggestion.name}
             focus={focusIdx === idx}
+            setSearchName={setSearchName}
           />
         ))
       )}

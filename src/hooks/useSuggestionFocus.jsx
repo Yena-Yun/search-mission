@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function useSuggestionFocus(suggestions) {
-  const [focusIdx, setFocusIdx] = useState(-2);
+  const [focusIdx, setFocusIdx] = useState(-1);
   const [focusResult, setFocusResult] = useState("");
   const suggestionLength = suggestions.length;
 
@@ -14,9 +14,6 @@ export default function useSuggestionFocus(suggestions) {
 
       if (e.key === "ArrowUp") {
         e.preventDefault();
-        if (focusIdx === -2) {
-          setFocusIdx(suggestionLength - 1);
-        }
         setFocusIdx((prev) => (prev - 1 + suggestionLength) % suggestionLength);
       }
 
@@ -34,7 +31,7 @@ export default function useSuggestionFocus(suggestions) {
   };
 
   useEffect(() => {
-    setFocusIdx(-2);
+    setFocusIdx(-1);
   }, [suggestions, setFocusIdx]);
 
   return {

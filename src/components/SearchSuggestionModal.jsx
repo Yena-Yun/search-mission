@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import SearchSuggestionList from "./SearchSuggestionList";
 
 const StyledSearchSuggestionModal = styled.div`
-  display: none;
   background-color: white;
   width: 450px;
   min-height: 210px;
@@ -15,10 +14,6 @@ const StyledSearchSuggestionModal = styled.div`
   text-align: left;
   padding-left: 20px;
 
-  input:focus ~ & {
-    display: block;
-  }
-
   .modalText {
     color: #6a737b;
     font-size: 12px;
@@ -28,13 +23,22 @@ const StyledSearchSuggestionModal = styled.div`
 SearchSuggestionModal.propTypes = {
   focusIdx: PropTypes.number.isRequired,
   suggestions: PropTypes.array.isRequired,
+  setSearchName: PropTypes.func.isRequired,
 };
 
-export default function SearchSuggestionModal({ focusIdx, suggestions }) {
+export default function SearchSuggestionModal({
+  focusIdx,
+  suggestions,
+  setSearchName,
+}) {
   return (
     <StyledSearchSuggestionModal>
       <span className="modalText">추천 검색어</span>
-      <SearchSuggestionList focusIdx={focusIdx} suggestions={suggestions} />
+      <SearchSuggestionList
+        focusIdx={focusIdx}
+        suggestions={suggestions}
+        setSearchName={setSearchName}
+      />
     </StyledSearchSuggestionModal>
   );
 }
