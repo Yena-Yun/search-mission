@@ -15,7 +15,7 @@ export default function useSuggestionFocus(
   searchRef
 ) {
   const [focusIdx, setFocusIdx] = useState(-2);
-  const suggestionLength = suggestions.length;
+  const suggestionLength = suggestions?.length;
 
   const changeIdxNum = (e) => {
     const key = e.key;
