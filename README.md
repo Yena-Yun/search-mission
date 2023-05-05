@@ -39,17 +39,17 @@ npm start
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href=""><img src="https://avatars.githubusercontent.com/u/54762756?v=4" href="https://github.com/shaqok" width="130px;" alt=""/><br /><sub><b>김대연</b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="https://avatars.githubusercontent.com/u/113227749?v=4" href="https://github.com/kyhui1115" width="130px;" alt=""/><br /><sub><b>김용희</b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="https://avatars.githubusercontent.com/u/125449198?v=4" href="https://github.com/pparksang1013" width="130px;" alt=""/><br /><sub><b>박상민</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/shaqok"><img src="https://avatars.githubusercontent.com/u/54762756?v=4" width="130px;" alt=""/><br /><sub><b>김대연</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/kyhui1115"><img src="https://avatars.githubusercontent.com/u/113227749?v=4" width="130px;" alt=""/><br /><sub><b>김용희</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/pparksang1013"><img src="https://avatars.githubusercontent.com/u/125449198?v=4" width="130px;" alt=""/><br /><sub><b>박상민</b></sub></a><br /></td>
      <tr/>
-      <td align="center"><a href=""><img src="https://avatars.githubusercontent.com/u/68722179?v=4" href="https://github.com/Yena-Yun" width="130px;" alt=""/><br /><sub><b>윤예나</b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="https://avatars.githubusercontent.com/u/105046423?v=4" href="https://github.com/powercording" width="130px;" alt=""/><br /><sub><b>이상돈</b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="https://avatars.githubusercontent.com/u/106291546?v=4" href="https://github.com/1myeji" width="130px;" alt=""/><br /><sub><b>임예지</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/Yena-Yun"><img src="https://avatars.githubusercontent.com/u/68722179?v=4" width="130px;" alt=""/><br /><sub><b>윤예나</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/powercording"><img src="https://avatars.githubusercontent.com/u/105046423?v=4" width="130px;" alt=""/><br /><sub><b>이상돈</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/1myeji"><img src="https://avatars.githubusercontent.com/u/106291546?v=4" width="130px;" alt=""/><br /><sub><b>임예지</b></sub></a><br /></td>
     </tr>
-    <td align="center"><a href=""><img src="https://avatars.githubusercontent.com/u/123078739?v=4" href="https://github.com/jjangeunyeong" width="130px;" alt=""/><br /><sub><b>장은영</b></sub></a><br /></td>
-    <td align="center"><a href=""><img src="https://avatars.githubusercontent.com/u/118142479?v=4" href="https://github.com/tmdgus95" width="130px;" alt=""/><br /><sub><b>조승현</b></sub></a><br /></td>
-    <td align="center"><a href=""><img src="https://avatars.githubusercontent.com/u/77577434?v=4" href="hhttps://github.com/bicco2" width="130px;" alt=""/><br /><sub><b>진호병</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/jjangeunyeong"><img src="https://avatars.githubusercontent.com/u/123078739?v=4" width="130px;" alt=""/><br /><sub><b>장은영</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/tmdgus95"><img src="https://avatars.githubusercontent.com/u/118142479?v=4" width="130px;" alt=""/><br /><sub><b>조승현</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/bicco2"><img src="https://avatars.githubusercontent.com/u/77577434?v=4" width="130px;" alt=""/><br /><sub><b>진호병</b></sub></a><br /></td>
   </tbody>
 </table>
 
