@@ -11,7 +11,7 @@ const StyledHome = styled.div`
   background-color: #cae9ff;
   text-align: center;
   line-height: 48px;
-  height: 100vh;
+  height: 80vh;
   width: 100vw;
   margin-top: 50px;
   padding-top: 75px;

@@ -24,21 +24,31 @@ SearchSuggestionListItem.propTypes = {
   name: PropTypes.string.isRequired,
   focus: PropTypes.bool.isRequired,
   setSearchName: PropTypes.func.isRequired,
+  handleMouseOver: PropTypes.func.isRequired,
+  handleMouseOut: PropTypes.func.isRequired,
+  searchRef: PropTypes.object,
 };
 
 export default function SearchSuggestionListItem({
   name,
   focus,
   setSearchName,
+  handleMouseOver,
+  handleMouseOut,
+  searchRef,
 }) {
   const modalOutSideClick = (e) => {
-    if (e.target) {
-      setSearchName(name);
-    }
+    if (e.target) setSearchName(name);
   };
 
   return (
-    <StyledSearchSuggestionListItem focus={focus} onClick={modalOutSideClick}>
+    <StyledSearchSuggestionListItem
+      focus={focus}
+      onClick={modalOutSideClick}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
+      ref={focus ? searchRef : null}
+    >
       <SearchIcon />
       <span>{name}</span>
     </StyledSearchSuggestionListItem>

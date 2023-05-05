@@ -1,42 +1,62 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export default function useSuggestionFocus(suggestions) {
-  const [focusIdx, setFocusIdx] = useState(-1);
-  const [focusResult, setFocusResult] = useState("");
-  const suggestionLength = suggestions.length;
+const KEY = {
+  ArrowDown: "ArrowDown",
+  ArrowUp: "ArrowUp",
+  Enter: "Enter",
+  BackSpace: "BackSpace",
+  Delete: "Delete",
+  Escape: "Escape",
+};
+
+export default function useSuggestionFocus(
+  suggestions,
+  setSearchName,
+  setOpenModal,
+  searchRef
+) {
+  const [focusIdx, setFocusIdx] = useState(-2);
+  const suggestionLength = suggestions?.length;
 
   const changeIdxNum = (e) => {
+    const key = e.key;
+
+    if (key === KEY.Escape) {
+      setOpenModal(false);
+      setSearchName("");
+    }
+
     if (suggestionLength > 0) {
-      if (e.key === "ArrowDown") {
+      searchRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+      if (key === KEY.ArrowDown) {
         e.preventDefault();
         setFocusIdx((prev) => (prev + 1) % suggestionLength);
       }
 
-      if (e.key === "ArrowUp") {
+      if (key === KEY.ArrowUp) {
         e.preventDefault();
         setFocusIdx((prev) => (prev - 1 + suggestionLength) % suggestionLength);
       }
 
-      if (e.key === "Enter") {
+      if (key === KEY.Enter) {
         if (focusIdx >= 0) {
-          setFocusResult(suggestions[focusIdx].name);
+          setSearchName(suggestions[focusIdx].name);
           setFocusIdx(-1);
         }
       }
 
-      if (e.keyCode === 8) {
+      if (key === KEY.BackSpace || key === KEY.Delete) {
         setFocusIdx(-1);
       }
     }
   };
 
-  useEffect(() => {
-    setFocusIdx(-1);
-  }, [suggestions, setFocusIdx]);
-
   return {
     changeIdxNum,
     focusIdx,
-    focusResult,
+    setFocusIdx,
   };
 }
