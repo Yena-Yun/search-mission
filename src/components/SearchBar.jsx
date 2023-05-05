@@ -88,7 +88,6 @@ export default function SearchBar({ openModal, setOpenModal }) {
       const caches = JSON.parse(localStorage.getItem(searchName));
       if (caches) return setSuggestions(caches.value);
 
-      console.log("searchName: ", searchName);
       const searchResult = await fetchResults(searchName);
       setSuggestions(searchResult);
     };
