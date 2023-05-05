@@ -6,6 +6,7 @@ const KEY = {
   Enter: "Enter",
   BackSpace: "BackSpace",
   Delete: "Delete",
+  Escape: "Escape",
 };
 
 export default function useSuggestionFocus(
@@ -30,7 +31,6 @@ export default function useSuggestionFocus(
         behavior: "smooth",
         block: "center",
       });
-
       if (key === KEY.ArrowDown) {
         e.preventDefault();
         setFocusIdx((prev) => (prev + 1) % suggestionLength);
