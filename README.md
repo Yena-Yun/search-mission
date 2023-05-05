@@ -11,7 +11,7 @@ npm install
 npm start
 ```
 
-## 🔗 [배포 링크](https://pre-onboarding-10th-1-8.vercel.app/)
+## 🔗 [배포 링크](https://main--sprightly-meringue-400fe6.netlify.app/)
 
 ## 목차
 
@@ -61,7 +61,7 @@ npm start
 ![styledcomponents](https://user-images.githubusercontent.com/123078739/234895185-7fd6c334-faca-4520-8551-2f20b32f085e.svg)
 ![eslint](https://user-images.githubusercontent.com/123078739/234895191-c1198a7b-9e2e-499a-8e61-c3b87bf8e2c2.svg)
 ![prettier](https://img.shields.io/badge/prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=black)
-![vercel](https://user-images.githubusercontent.com/123078739/235159384-253eb589-03dd-4f4e-97f0-eb07a6c928dd.svg)
+![netlify](https://img.shields.io/badge/netlify-0F1E25?style=for-the-badge&logo=netlify&logoColor=01BDBA)
 
 ## 📖 기능 구현
 
