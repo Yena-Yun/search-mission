@@ -1,8 +1,9 @@
 import axios from "axios";
+const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
 
 const SearchApi = axios.create({
   method: "GET",
-  baseURL: "/api/v1/search-conditions",
+  baseURL: `${PROXY}/api/v1/search-conditions`,
 });
 
 SearchApi.interceptors.request.use((config) => {
