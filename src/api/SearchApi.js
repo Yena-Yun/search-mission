@@ -2,7 +2,7 @@ import axios from "axios";
 
 const SearchApi = axios.create({
   method: "GET",
-  baseURL: "https://api.clinicaltrialskorea.com/api/v1/search-conditions",
+  baseURL: "/api/v1/search-conditions",
 });
 
 SearchApi.interceptors.request.use((config) => {
